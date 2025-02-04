@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เธอกับฉัน 💖</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; background-color: #ffe6e6; position: relative; }
+        .container { max-width: 600px; margin: auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        img { width: 100%; border-radius: 10px; }
+        button { padding: 10px 20px; margin-top: 20px; background: #ff6699; border: none; color: white; cursor: pointer; border-radius: 5px; }
+        .hearts {
+            position: fixed;
+            top: 50%;  /* เริ่มที่กลางหน้าจอ */
+            left: 50%;
+            transform: translate(-50%, -50%);  /* จัดกลาง */
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: none;
+        }
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: red;
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 50% 75%, 18% 100%, 0% 38%);
+            opacity: 0.7;
+            animation: float 3s linear infinite;
+        }
+        @keyframes float {
+            0% {
+                transform: translate(-50%, -50%) scale(1);  /* เริ่มที่กลาง */
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -200vh) scale(0.5);  /* เคลื่อนที่ขึ้นจากกลาง */
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="title">💖 เธอกับฉัน 💖</h1>
+        <p id="text">นี่คือความทรงจำที่แสนพิเศษของเรา</p>
+        <img id="image" src="https://imgur.com/JuJZtZI.jpg" alt="ความทรงจำของเรา">
+        <button id="nextButton" onclick="nextPage()">หน้าต่อไป ➡</button>
+    </div>
+    <div class="hearts" id="hearts"></div>
+
+    <script>
+        let pages = [
+            { text: "เราไปซื้อของเล่นด้วยกัน 💘", image: "https://imgur.com/1baSR9H.jpg" },
+            { text: "เราไปดูคอนเสิร์ตด้วยกัน 🏖️", image: "https://imgur.com/FjXRaTG.jpg" },
+            { text: "วันวาเลนไทน์ปีที่แล้วของเธอ 🎉", image: "https://imgur.com/Mv7tD22.jpg" },
+            { text: "ต่อให้เราไม่ได้อยู่ด้วยกัน แตฉันรักเธอเสมอนะ 💖", image: "https://imgur.com/XjEuu5i.jpg" }
+        ];
+        let index = 0;
+
+        function nextPage() {
+            index++;
+            if (index < pages.length) {
+                document.getElementById("text").innerText = pages[index].text;
+                document.getElementById("image").src = pages[index].image;
+            } else {
+                document.getElementById("title").innerText = "💖 Ending 💖";
+                document.getElementById("text").innerText = "ขอบคุณที่มอบความทรงจำดีๆให้ในช่วงหนึ่ง 💕";
+                document.getElementById("image").style.display = "none";
+                document.getElementById("nextButton").innerText = "เริ่มใหม่ 🔄";
+                document.getElementById("nextButton").setAttribute("onclick", "restart()");
+                
+                // เริ่มเอฟเฟกต์หัวใจทันทีที่หน้าสุดท้าย
+                setTimeout(startHeartsEffect, 100); // ใช้ setTimeout เพื่อให้เอฟเฟกต์เริ่มหลังจากการเปลี่ยนแปลง
+            }
+        }
+
+        function restart() {
+            index = 0;
+            document.getElementById("title").innerText = "💖 เธอกับฉัน 💖";
+            document.getElementById("text").innerText = pages[index].text;
+            document.getElementById("image").src = pages[index].image;
+            document.getElementById("image").style.display = "block";
+            document.getElementById("nextButton").innerText = "หน้าต่อไป ➡";
+            document.getElementById("nextButton").setAttribute("onclick", "nextPage()");
+            document.getElementById("hearts").style.display = "none";
+        }
+
+        function startHeartsEffect() {
+            let heartsContainer = document.getElementById("hearts");
+            heartsContainer.style.display = "block";
+            
+            for (let i = 0; i < 30; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+                heartsContainer.appendChild(heart);
+            }
+            
+            // ซ่อนเอฟเฟกต์หลังจาก 15 วินาที
+            setTimeout(() => {
+                heartsContainer.style.display = "none";  // ซ่อนหลังจาก 15 วินาที
+            }, 15000); // 15 วินาที
+        }
+    </script>
+</body>
+</html>
